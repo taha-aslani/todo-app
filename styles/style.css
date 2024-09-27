@@ -83,7 +83,7 @@ div.todo-input button {
     position: relative;
 }
 
-div.todo-list {
+.todo-list {
     position: absolute;
     top: 67%;
     left: 50%;
@@ -93,4 +93,12 @@ div.todo-list {
     background-color: #dedede;
     border-radius: 20px;
     border: 1px solid #000000;
+}
+
+span.empty-todo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
 }
