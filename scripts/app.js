@@ -18,7 +18,8 @@ function addTodo(object){
 }
 
 function removeTodo(object){
-    document.getElementById("empty").style.display = "block";
+    document.getElementById("todolist").innerHTML = "";
+    showEmpty();
 }
 
 function showTodo(object){
@@ -32,4 +33,12 @@ function showTodo(object){
 
 function getTodos(object){
 
+}
+
+function showEmpty(){
+    let emptySpan = document.createElement("span");
+    emptySpan.id = "empty";
+    emptySpan.classList.add("empty-todo");
+    emptySpan.innerText = "there is nothing to show here!";
+    document.getElementById("todolist").appendChild(emptySpan);
 }
