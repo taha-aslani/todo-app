@@ -95,7 +95,7 @@ div.todo-input button {
     border: 1px solid #000000;
 }
 
-span.empty-todo {
+div.empty-todo {
     position: absolute;
     left: 50%;
     top: 50%;
