@@ -1,0 +1,156 @@
+* {
+  --green-color: rgb(115, 255, 119);
+  --orange-color: rgb(255, 183, 0);
+  --red-color: rgb(255, 105, 105);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin: 10px auto;
+  width: calc(100vw - 400px);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.container > h2 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.inputs {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.inputs > input {
+  width: 45%;
+  padding: 10px;
+  border: 1px solid var(--orange-color);
+  border-radius: 3px;
+}
+
+.inputs > input:focus {
+  border: 2px solid var(--orange-color);
+  outline: none;
+}
+
+.yellow-btn {
+  cursor: pointer;
+  color: black;
+  background-color: var(--orange-color);
+  padding: 5px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+}
+
+.down-btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.red-btn {
+  cursor: pointer;
+  color: black;
+  background-color: var(--red-color);
+  padding: 5px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+}
+
+.green-btn {
+  cursor: pointer;
+  color: black;
+  background-color: var(--green-color);
+  padding: 5px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+}
+
+table {
+  margin: 10px auto;
+  width: calc(100vw - 360px);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+thead {
+  background-color: #e6e6e6;
+}
+
+thead th {
+  padding: 10px;
+}
+
+thead th:first-child {
+  border-top-left-radius: 10px;
+}
+
+thead th:last-child {
+  border-top-right-radius: 10px;
+}
+
+tbody td {
+  text-align: center;
+  padding: 5px 10px;
+  background-color: #f7f7f7;
+  width: 25%;
+}
+
+tbody td button {
+  padding: 4px 8px;
+  margin: 2px 5px;
+}
+
+tbody td .green-btn {
+  width: 48px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.large {
+  padding: 6px 12px;
+}
+
+#alertMessage {
+  margin: 0 auto;
+  width: calc(100vw - 360px);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alert {
+  width: 100%;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.alert-success {
+  background-color: var(--green-color);
+  opacity: 0.8;
+}
+
+.alert-error {
+  background-color: var(--red-color);
+  opacity: 0.8;
+}
+
+#editBtn {
+  display: none;
+}

@@ -1,24 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TODO List App</title>
-    <link rel="stylesheet" href="./styles/style.css">
-</head>
-<body>
-    <div class="app-name main-font">TODO List App</div>
-
-    <div class="todo-input main-font">
-        <input type="text" name="todo-input" placeholder="Enter Your TODO" class="main-font">
-        <button><img src="./files/right-arrow.svg" alt="right_arrow"></button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO App BTStart</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Todo App | tahaaslani.ir</h2>
+      <div class="inputs">
+        <input type="text" placeholder="Add todo ..." id="todoNameInput" />
+        <input type="date" placeholder="mm/dd/yyyy" id="todoDateInput" />
+        <button type="button" class="yellow-btn large" id="addBtn">Add</button>
+        <button type="button" class="yellow-btn large" id="editBtn">
+          Edit
+        </button>
+      </div>
+      <div class="down-btns">
+        <div class="category-btns">
+          <button type="button" class="yellow-btn large" id="allBtn">
+            All
+          </button>
+          <button type="button" class="yellow-btn large" id="pendingBtn">
+            Pending
+          </button>
+          <button type="button" class="yellow-btn large" id="completedBtn">
+            Completed
+          </button>
+        </div>
+        <div class="deletea-btn">
+          <button type="button" class="red-btn large" id="delAllBtn">
+            Delete All
+          </button>
+        </div>
+      </div>
     </div>
-
-    <div class="todo-list grid main-font">
-        
+    <div id="alertMessage"></div>
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
-
-
     <script src="./scripts/app.js"></script>
-</body>
+  </body>
 </html>
