@@ -1,76 +1,172 @@
-document.getElementById("submittodo").addEventListener("click", function(event){
-    var todo_text = document.getElementById("inputtodo").value;
-    console.log(todo_text);
-    showTodo('s')
-})
+function addEvents() {
+  document.getElementById('addBtn').addEventListener('click', addButtonEvent);
+  document
+    .getElementById('delAllBtn')
+    .addEventListener('click', deleteAllButtonEvent);
+  document
+    .getElementById('allBtn')
+    .addEventListener('click', showAllButtonEvent);
+  document
+    .getElementById('pendingBtn')
+    .addEventListener('click', showPendingButtonEvent);
+  document
+    .getElementById('completedBtn')
+    .addEventListener('click', showCompletedButtonEvent);
 
-var todos = [
-    {
-        id: 1,
-        text: "hello world!",
-        isDone: false,
-        importance: "low"
-    }
-];
+  document
+    .getElementById('editBtn')
+    .addEventListener('click', applyEditHandler);
 
-function addTodo(object){
-    document.getElementById("empty").style.display = "none";
-    todos.push({
-        id: object.id,
-        text: object.text,
-        isDone: object.isDone,
-        importance: object.importance
-    });
-    setCookie("todos", JSON.stringify(todos), 1);
+  showTodos();
 }
 
-function removeTodo(object){
-    document.getElementById("todolist").innerHTML = "";
-    showEmpty();
+let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+function saveToLocalStorage() {
+  localStorage.setItem('todos', JSON.stringify(todos));
 }
 
-function showTodo(object){
-    document.getElementById("todolist").innerHTML = "";
-    todos.forEach((todo) => {
-        let nDiv = document.createElement("div");
-        nDiv.innerHTML = `${todo.id} , ${todo.text} , ${todo.importance} , ${todo.isDone}`
-        document.getElementById("todolist").appendChild(nDiv)
-    });
+function addButtonEvent() {
+  const todoName = document.getElementById('todoNameInput');
+  const todoDate = document.getElementById('todoDateInput');
+  const todo = {
+    id: generateId(),
+    completed: false,
+    taskName: todoName.value,
+    taskDate: todoDate.value,
+  };
+
+  if (todoName.value) {
+    todos.push(todo);
+    saveToLocalStorage();
+    console.log(todos);
+    showAlert('Task added successfully!', 'success');
+    showTodos();
+  } else {
+    showAlert('Please provide a task name!', 'error');
+  }
+
+  todoName.value = '';
+  todoDate.value = '';
 }
 
-function getTodos(object){
+const todosBody = document.querySelector('tbody');
+function showTodos(data) {
+  let todosList = data || todos;
+  todosBody.innerHTML = '';
 
+  if (!todosList.length) {
+    todosBody.innerHTML = '<tr><td colspan="4">No task found!</td></tr>';
+    return;
+  }
+
+  todosList.forEach((todo) => {
+    todosBody.innerHTML += `
+      <tr>
+        <td>${todo.taskName}</td>
+        <td>${todo.taskDate || 'No Date'}</td>
+        <td>${todo.completed ? 'Completed' : 'Pending'}</td>
+        <td>
+        <button class="yellow-btn" onclick="editHandler('${
+          todo.id
+        }')">Edit</button>
+          <button class="green-btn" onclick="toggleHandler('${todo.id}');">
+            ${todo.completed ? 'Undo' : 'Do'}
+          </button>
+          
+          <button class="red-btn" onclick="deleteHandler('${
+            todo.id
+          }');">Delete</button>
+          </td>
+      </tr>
+    `;
+  });
 }
 
-function showEmpty(){
-    let emptySpan = document.createElement("div");
-    emptySpan.id = "empty";
-    emptySpan.classList.add("empty-todo");
-    emptySpan.innerText = "there is nothing to show here!";
-    document.getElementById("todolist").appendChild(emptySpan);
+function deleteHandler(todoId) {
+  const newTodos = todos.filter((todo) => todo.id !== todoId);
+  todos = newTodos;
+  saveToLocalStorage();
+  showTodos();
+  showAlert('Task deleted successfully!', 'success');
 }
 
-
-// cookies
-
-function setCookie(cname, cvalue, exdays) {
-    const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    let expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+function deleteAllButtonEvent() {
+  if (!todos.length) {
+    showAlert('There is no task to delete!', 'error');
+    return;
+  }
+  todos = [];
+  saveToLocalStorage();
+  showTodos();
+  showAlert('All Tasks cleared successfully!', 'success');
 }
-  
-function getCookie(cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
+
+function toggleHandler(todoId) {
+  const todo = todos.find((todo) => todo.id === todoId);
+  todo.completed = !todo.completed;
+  saveToLocalStorage();
+  showTodos();
+  showAlert('Task Was Updated!', 'success');
 }
+
+function editHandler(todoId) {
+  const todo = todos.find((todo) => todo.id === todoId);
+  document.getElementById('todoNameInput').value = todo.taskName;
+  document.getElementById('todoDateInput').value = todo.taskDate;
+  document.getElementById('addBtn').style.display = 'none';
+  document.getElementById('editBtn').style.display = 'inline-block';
+  document.getElementById('editBtn').dataset.id = todoId;
+}
+
+function applyEditHandler(event) {
+  const id = event.target.dataset.id;
+  const todo = todos.find((todo) => todo.id === id);
+  const todoName = document.getElementById('todoNameInput');
+  const todoDate = document.getElementById('todoDateInput');
+  todo.taskName = todoName.value;
+  todo.taskDate = todoDate.value;
+  document.getElementById('addBtn').style.display = 'inline-block';
+  document.getElementById('editBtn').style.display = 'none';
+  todoName.value = '';
+  todoDate.value = '';
+  saveToLocalStorage();
+  showTodos();
+  showAlert('Task edited successfully!', 'success');
+}
+
+function showAllButtonEvent() {
+  showTodos(todos);
+}
+
+function showPendingButtonEvent() {
+  const filtered = todos.filter((todo) => !todo.completed);
+  showTodos(filtered);
+}
+
+function showCompletedButtonEvent() {
+  const filtered = todos.filter((todo) => todo.completed);
+  showTodos(filtered);
+}
+
+function showAlert(message, type) {
+  const alertDiv = document.getElementById('alertMessage');
+  alertDiv.innerHTML = '';
+  const alert = document.createElement('p');
+  alert.innerText = message;
+  alert.classList.add('alert');
+  alert.classList.add(`alert-${type}`);
+  alertDiv.append(alert);
+
+  setTimeout(() => {
+    alert.style.display = 'none';
+  }, 3_000);
+}
+
+function generateId() {
+  return Math.round(
+    Math.random() * Math.random() * Math.pow(10, 15)
+  ).toString();
+}
+
+window.addEventListener('load', addEvents);
